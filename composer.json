@@ -1,0 +1,44 @@
+{
+    "name": "raultm/pruebas",
+    "description": ":package_description",
+    "license": "license",
+    "authors": [
+        {
+            "name": "author name",
+            "email": "author email",
+            "homepage": "author homepage"
+        }
+    ],
+    "homepage": "https://github.com/raultm/pruebas",
+    "keywords": ["Laravel", "Pruebas"],
+    "require": {
+        "illuminate/support": "~5|~6|~7|~8",
+        "spatie/laravel-permission": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~8.0|~9.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3|~4|~5|~6",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Raultm\\Pruebas\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Raultm\\Pruebas\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Raultm\\Pruebas\\PruebasServiceProvider"
+            ],
+            "aliases": {
+                "Pruebas": "Raultm\\Pruebas\\Facades\\Pruebas"
+            }
+        }
+    }
+}
