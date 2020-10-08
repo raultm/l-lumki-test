@@ -14,7 +14,7 @@ class PruebasServiceProvider extends ServiceProvider
     public function boot()
     {
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'raultm');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'raultm');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'lumki');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 

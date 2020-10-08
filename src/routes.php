@@ -21,6 +21,10 @@ use Spatie\Permission\Models\Role;
 
 Route::prefix('lumki')->middleware(['web', 'verified'])->group(function () {
 
+    Route::get('/', function(Request $request){
+        return redirect(route("lumki.users.index"));
+    });
+
     Route::get('setup', function() {
         $r1 = Role::firstOrCreate(["name" => "Superadmin"]);
         $r2 = Role::firstOrCreate(["name" => "Admin"]);
@@ -36,24 +40,20 @@ Route::prefix('lumki')->middleware(['web', 'verified'])->group(function () {
         $user->assignRole($r3);
     });
 
-    Route::get('/', function(Request $request){
-        return redirect(route("lumki.users.index"));
-    });
-
     Route::get('users', function(Request $request){
-        return view("management.index", ["users" => User::all()]);
+        return view("lumki::index", ["users" => User::paginate(8)]);
     })->name("lumki.users.index");
 
-    Route::get('users/{user}', function(User $user){
 
-        return view("management.edit", [
+    Route::get('users/{user}', function(User $user){
+        return view("lumki::edit", [
             "user" => $user,
             "roles" => Role::all()
         ]);
     })->name("lumki.user.roles.edit");
 
+
     Route::put('users/{user}', function(User $user){
-        //dd(request()->all());
         $user->syncRoles(request('roles'));
         return redirect(route("lumki.users.index"));
     })->name("lumki.user.roles.update");
