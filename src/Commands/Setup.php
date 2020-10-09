@@ -104,8 +104,8 @@ class Setup extends Command
             function () {
                 $this->info(
                     Pruebas::insertLineBefore(
-                        app_path("Models/User.php"),
-                        "Route::get('/',",
+                        base_path("routes/web.php"),
+                        "Route::get('/', function () {",
                         "Route::impersonate();\n")
                 );
             }

@@ -30,6 +30,9 @@ class Pruebas extends Facade
 
     public static function insertLine($path, $needle, $replace, $after = true)
     {
+        if( ! file_exists($path) ){
+            return "The file doesn't exists!";
+        }
         $content = file_get_contents($path);
         if(Str::contains($content, $replace)){
             return "The line already exists";
