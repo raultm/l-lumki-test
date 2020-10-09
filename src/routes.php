@@ -4,6 +4,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Raultm\Pruebas\Facades\Pruebas;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -28,6 +29,10 @@ Route::prefix('lumki')->middleware(['web','auth:sanctum'])->group(function () {
     })->name("lumki.index");
 
     Route::get('setup', function() {
+        if( ! Schema::hasTable('roles') ){
+            return view("lumki::nosetup");
+        }
+        /*
         $r1 = Role::firstOrCreate(["name" => "Superadmin"]);
         $r2 = Role::firstOrCreate(["name" => "Admin"]);
         $r3 = Role::firstOrCreate(["name" => "User"]);
@@ -40,6 +45,8 @@ Route::prefix('lumki')->middleware(['web','auth:sanctum'])->group(function () {
         $user->assignRole($r1);
         $user->assignRole($r2);
         $user->assignRole($r3);
+        */
+        //return view("lumki::nosetup");
     });
 
     Route::get('users', function(Request $request){
