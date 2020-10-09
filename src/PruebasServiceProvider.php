@@ -2,7 +2,9 @@
 
 namespace Raultm\Pruebas;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class PruebasServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,7 @@ class PruebasServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->loadRoutesFrom(__DIR__.'/routes.php');
 
+        $this->registerBladeDirectives();
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
@@ -32,6 +35,7 @@ class PruebasServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/pruebas.php', 'pruebas');
+
 
         // Register the service the package provides.
         $this->app->singleton('pruebas', function ($app) {
@@ -78,5 +82,23 @@ class PruebasServiceProvider extends ServiceProvider
 
         // Registering package commands.
         // $this->commands([]);
+    }
+
+    protected function registerBladeDirectives()
+    {
+        Blade::directive('lumki', function () {
+            return
+            Blade::compileString('<div class="block px-6 py-2 text-xs text-gray-400">Lumki</div>'
+
+                . '<a href="{{ route(\'lumki.index\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
+                    . '{{ __(\'Users Management\') }}'
+                . '</a>'
+                . '@impersonating'
+                    . '<a href="{{ route(\'impersonate.leave\') }}" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">'
+                        . '{{ __(\'Leave impersonation\') }}'
+                    . '</a>'
+                . '@endImpersonating'
+            );
+        });
     }
 }

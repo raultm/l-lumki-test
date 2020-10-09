@@ -24,8 +24,8 @@
                                         <button class="cursor-pointer ml-6 text-sm text-blue-500 focus:outline-none">
                                             <a href="{{ route("lumki.user.roles.edit", $user) }}">{{ __('Edit Roles') }}</a>
                                         </button>
-                                        <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none" wire:click="confirmApiTokenDeletion({{ $user->id }})">
-                                            {{ __('Delete') }}
+                                        <button class="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none">
+                                            <a href="{{ route('impersonate', $user->id) }}">Impersonate</a>
                                         </button>
                                     </div>
                                 </div>

@@ -19,11 +19,13 @@ use Spatie\Permission\Models\Role;
 |
 */
 
-Route::prefix('lumki')->middleware(['web', 'verified'])->group(function () {
+Route::prefix('lumki')->middleware(['web','auth:sanctum'])->group(function () {
+
+    //Route::impersonate();
 
     Route::get('/', function(Request $request){
         return redirect(route("lumki.users.index"));
-    });
+    })->name("lumki.index");
 
     Route::get('setup', function() {
         $r1 = Role::firstOrCreate(["name" => "Superadmin"]);
@@ -57,6 +59,26 @@ Route::prefix('lumki')->middleware(['web', 'verified'])->group(function () {
         $user->syncRoles(request('roles'));
         return redirect(route("lumki.users.index"));
     })->name("lumki.user.roles.update");
+
+    Route::get('impersonate', function(User $user){
+        Auth::user()->impersonate($user);
+        return redirect(route('dashboard'));
+    })->name("lumki.impersonate");
+
+
+    Route::get('file', function(){
+        $r1 = Pruebas::insertLineAfter(
+            app_path("Models/User.php"),
+            "use Laravel\Jetstream\HasProfilePhoto;",
+            "use Spatie\Permission\Traits\HasRoles;");
+
+        $r2 = Pruebas::insertLineAfter(
+            app_path("Models/User.php"),
+            "use HasProfilePhoto;",
+            "use HasRoles;");
+
+        return [$r1, $r2];
+    });
 
 });
 
