@@ -2,9 +2,12 @@
 
 namespace Raultm\Pruebas\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Raultm\Pruebas\Facades\Pruebas;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\Process\Process;
 
 /**
@@ -110,6 +113,7 @@ class Setup extends Command
                 );
             }
         );
+
         // Añadir directiva @lumki al menu del usuario
         $this->askStep(
             '¿Añadir Menú de acceso en el desplegable del usuario',
@@ -120,6 +124,25 @@ class Setup extends Command
                         "@if (Laravel\Jetstream\Jetstream::hasApiFeatures())",
                         "\n@lumki\n")
                 );
+            }
+        );
+
+        // Añadir roles, permisos
+        $this->askStep(
+            '¿Añadir Roles Superadmin, Admin, User?',
+            function () {
+                $r1 = Role::firstOrCreate(["name" => "Superadmin"]);
+                $r2 = Role::firstOrCreate(["name" => "Admin"]);
+                $r3 = Role::firstOrCreate(["name" => "User"]);
+
+                $p1 = Permission::firstOrCreate(['name' => 'manage users']);
+
+                $r1->givePermissionTo('manage users');
+
+                $user = User::first();
+                $user->assignRole($r1);
+                $user->assignRole($r2);
+                $user->assignRole($r3);
             }
         );
 
