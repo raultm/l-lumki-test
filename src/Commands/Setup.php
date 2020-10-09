@@ -98,6 +98,18 @@ class Setup extends Command
             }
         );
 
+        // Añadir Rutas de Impersonate
+        $this->askStep(
+            '¿Añadir Rutas de Impersonate',
+            function () {
+                $this->info(
+                    Pruebas::insertLineBefore(
+                        app_path("Models/User.php"),
+                        "Route::get('/',",
+                        "Route::impersonate();\n")
+                );
+            }
+        );
         // Añadir directiva @lumki al menu del usuario
         $this->askStep(
             '¿Añadir Menú de acceso en el desplegable del usuario',
